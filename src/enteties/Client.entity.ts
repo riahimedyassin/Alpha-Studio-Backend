@@ -2,12 +2,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Point } from "./Point.entity";
 
 @Entity()
-export class User {
+export class Client {
   @PrimaryGeneratedColumn()
   id!: number;
   @Column()
@@ -20,9 +23,12 @@ export class User {
   email!: string;
   @Column()
   password!: string;
-  @Column("date")
+  @Column({
+    type: "date",
+  })
   birthdate!: Date;
-  @Column("boolean", {
+  @Column({
+    type: "boolean",
     default: false,
   })
   verified!: boolean;
@@ -30,4 +36,7 @@ export class User {
   created_at!: Date;
   @UpdateDateColumn()
   updated_at!: Date;
+  @OneToOne(() => Point)
+  @JoinTable()
+  point!: Point;
 }
