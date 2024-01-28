@@ -1,5 +1,4 @@
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
-import { StatusCodeResult } from "inversify-express-utils/lib/results";
 
 export class CustomError extends Error {
   constructor(
@@ -7,5 +6,8 @@ export class CustomError extends Error {
     public readonly status: number = StatusCodes.INTERNAL_SERVER_ERROR
   ) {
     super(message);
+  }
+  public static throw(message?: string, status?: number) {
+    throw new this(message, status);
   }
 }

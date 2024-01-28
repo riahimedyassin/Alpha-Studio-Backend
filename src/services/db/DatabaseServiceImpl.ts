@@ -1,8 +1,10 @@
 import { DataSource } from "typeorm";
 import { DatabaseService } from "./DatabaseService";
 import { injectable } from "inversify";
-import { Admin } from "../../enteties/Admin.entity";
+import { Admin } from "../../entities/Admin.entity";
 import "dotenv/config";
+import { Client } from "../../entities/Client.entity";
+import { Point } from "../../entities/Point.entity";
 
 @injectable()
 export class DatabaseServiceImpl implements DatabaseService {
@@ -19,7 +21,7 @@ export class DatabaseServiceImpl implements DatabaseService {
       database: DB_DATABASE,
       synchronize: true,
       logging: true,
-      entities: [Admin],
+      entities: [Admin, Client, Point],
     });
     this.db = AppDataSource;
   }

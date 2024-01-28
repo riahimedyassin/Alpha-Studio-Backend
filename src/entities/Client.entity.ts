@@ -1,7 +1,9 @@
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -9,8 +11,8 @@ import {
 } from "typeorm";
 import { Point } from "./Point.entity";
 
-@Entity()
-export class Client {
+@Entity("Client")
+export class Client extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
   @Column()
@@ -36,7 +38,7 @@ export class Client {
   created_at!: Date;
   @UpdateDateColumn()
   updated_at!: Date;
-  @OneToOne(() => Point)
-  @JoinTable()
+  @OneToOne(() => Point, { eager: true })
+  @JoinColumn()
   point!: Point;
 }

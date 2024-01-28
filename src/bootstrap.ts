@@ -4,7 +4,7 @@ import { TYPES } from "./constants/TYPES";
 import { DatabaseService } from "./services/db/DatabaseService";
 import { InversifyExpressServer } from "inversify-express-utils";
 import { container } from "./config/inversify.config";
-import express from "express";
+import express, { urlencoded } from "express";
 import "./controllers/Client.controller";
 import "dotenv/config";
 
@@ -13,11 +13,12 @@ export class Bootstrap {
     @inject(TYPES.DatabaseService) private readonly _dbService: DatabaseService
   ) {}
   public async run() {
-    await this._dbService.db.initialize()
+    await this._dbService.db.initialize();
     const { PORT } = process.env || 5000;
     const server = new InversifyExpressServer(container);
     server.setConfig((app) => {
       app.use(express.json());
+      app.use(urlencoded({ extended: true }));
     });
     const app = server.build();
     app.listen(PORT, () => {
