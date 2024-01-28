@@ -4,7 +4,6 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -38,7 +37,7 @@ export class Client extends BaseEntity {
   created_at!: Date;
   @UpdateDateColumn()
   updated_at!: Date;
-  @OneToOne(() => Point, { eager: true })
+  @OneToOne(() => Point, { eager: true, cascade: true })
   @JoinColumn()
   point!: Point;
 }

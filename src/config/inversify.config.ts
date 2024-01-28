@@ -10,6 +10,10 @@ import { PointService } from "../services/point/PointService";
 import { PointServiceImpl } from "../services/point/PointServiceImpl";
 import { PointRepository } from "../repositories/point/PointRepository";
 import { PointRepositoryImpl } from "../repositories/point/PointRepositoryImpl";
+import { AdminService } from "../services/admin/AdminService";
+import { AdminServiceImpl } from "../services/admin/AdminServiceImpl";
+import { AdminRepository } from "../repositories/admin/AdminRepository";
+import { AdminRepositoryImpl } from "../repositories/admin/AdminRepositoryImpl";
 
 const container = new Container();
 
@@ -18,6 +22,9 @@ container.bind<ClientService>(TYPES.ClientService).to(ClientServiceImpl).inSingl
 container.bind<ClientRepository>(TYPES.ClientRepository).to(ClientRepositoryImpl).inSingletonScope()
 container.bind<PointService>(TYPES.PointService).to(PointServiceImpl).inSingletonScope(); 
 container.bind<PointRepository>(TYPES.PointRepository).to(PointRepositoryImpl).inSingletonScope()
+container.bind<AdminService>(TYPES.AdminService).to(AdminServiceImpl).inSingletonScope()
+container.bind<AdminRepository>(TYPES.AdminRepository).to(AdminRepositoryImpl).inSingletonScope()
+
 
 
 export { container };
