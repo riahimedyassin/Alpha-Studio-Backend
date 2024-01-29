@@ -14,6 +14,9 @@ import { AdminService } from "../services/admin/AdminService";
 import { AdminServiceImpl } from "../services/admin/AdminServiceImpl";
 import { AdminRepository } from "../repositories/admin/AdminRepository";
 import { AdminRepositoryImpl } from "../repositories/admin/AdminRepositoryImpl";
+import { AuthService } from "../services/auth/AuthService";
+import { AuthServiceImpl } from "../services/auth/AuthServiceImpl";
+import { AuthMiddleware } from "../middlewares/Auth.middleware";
 
 const container = new Container();
 
@@ -24,6 +27,8 @@ container.bind<PointService>(TYPES.PointService).to(PointServiceImpl).inSingleto
 container.bind<PointRepository>(TYPES.PointRepository).to(PointRepositoryImpl).inSingletonScope()
 container.bind<AdminService>(TYPES.AdminService).to(AdminServiceImpl).inSingletonScope()
 container.bind<AdminRepository>(TYPES.AdminRepository).to(AdminRepositoryImpl).inSingletonScope()
+container.bind<AuthService>(TYPES.AuthService).to(AuthServiceImpl).inSingletonScope()
+container.bind<AuthMiddleware>(TYPES.AuthMiddleware).to(AuthMiddleware)
 
 
 

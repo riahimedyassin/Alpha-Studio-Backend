@@ -21,4 +21,12 @@ export class BaseHttpResponse {
       status: status,
     });
   }
+  public static token(token: string) {
+    const response = new HttpResponseMessage(StatusCodes.OK);
+    response.content = new JsonContent({
+      token,
+      stauts: StatusCodes.OK,
+      message: "Token Retrieved successfully",
+    });
+  }
 }
