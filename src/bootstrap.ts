@@ -7,6 +7,7 @@ import { container } from "./config/inversify.config";
 import express, { urlencoded } from "express";
 import "./controllers/Client.controller";
 import "dotenv/config";
+import { ErrorHandler } from "./errors/error-handler";
 
 export class Bootstrap {
   constructor(
@@ -19,6 +20,9 @@ export class Bootstrap {
     server.setConfig((app) => {
       app.use(express.json());
       app.use(urlencoded({ extended: true }));
+    });
+    server.setErrorConfig((app) => {
+      app.use(ErrorHandler.handle);
     });
     const app = server.build();
     app.listen(PORT, () => {
