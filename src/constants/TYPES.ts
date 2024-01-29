@@ -7,5 +7,6 @@ export const TYPES = {
   AdminService: Symbol.for("AdminService"),
   AdminRepository: Symbol.for("AdminRepository"),
   AuthService: Symbol.for("AuthService"),
-  AuthMiddleware : Symbol.for('AuthMiddleware')
+  AuthMiddleware : Symbol.for('AuthMiddleware'), 
+  GlobalNotificationService : Symbol.for('GlobalNotificationService')
 };
