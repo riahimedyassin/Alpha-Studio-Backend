@@ -1,12 +1,12 @@
 import { inject, injectable } from "inversify";
 import { ClientService } from "./ClientService";
-import { ClientGlobalResponseDTO } from "../../dto/client/ClientGlobalResponse.dto";
 import { TYPES } from "../../constants/TYPES";
-import { DatabaseService } from "../db/DatabaseService";
 import { ClientRepository } from "../../repositories/client/ClientRepository";
 import { Client } from "../../models/Client.model";
 import { ClientRegisterDTO } from "../../dto/client/ClientRegister.dto";
 import { PointService } from "../point/PointService";
+import { DeleteResult } from "typeorm";
+import { ClientPatchDTO } from "../../dto/client/ClientPatch.dto";
 
 @injectable()
 export class ClientServiceImpl implements ClientService {
@@ -27,5 +27,16 @@ export class ClientServiceImpl implements ClientService {
     client.setPoint = point;
     const result = await this._clientRepos.repos.save(client);
     return result;
+  }
+  public async delete(id: string) {
+    const deleted = await this._clientRepos.repos.delete({ id: Number(id) });
+    return deleted instanceof DeleteResult;
+  }
+  public async update(
+    id: string,
+    changes: Partial<ClientPatchDTO>
+  ): Promise<Client> {
+    const changed = await this._clientRepos.findOneAndUpdate(id, changes);
+    return changed;
   }
 }

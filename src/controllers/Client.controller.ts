@@ -2,7 +2,9 @@ import { inject } from "inversify";
 import {
   BaseHttpController,
   controller,
+  httpDelete,
   httpGet,
+  httpPatch,
   httpPost,
   requestBody,
   requestParam,
@@ -14,6 +16,8 @@ import { BaseHttpResponse } from "../helpers/BaseHttpResponse";
 import { CustomError } from "../errors/custom-error";
 import { ClientRegisterDTO } from "../dto/client/ClientRegister.dto";
 import { validate } from "class-validator";
+import { StatusCodes, ReasonPhrases } from "http-status-codes";
+import { ClientPatchDTO } from "../dto/client/ClientPatch.dto";
 
 @controller("/api/v1/clients")
 export class ClientController extends BaseHttpController {
@@ -59,6 +63,32 @@ export class ClientController extends BaseHttpController {
       "Client Registered successfully",
       201,
       saved
+    );
+  }
+  @httpDelete("/:id")
+  public async delete(@requestParam("id") id: string) {
+    const res = await this._clientService.delete(id);
+    if (!res)
+      return BaseHttpResponse.error(
+        "Cannot delete the client",
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    return BaseHttpResponse.success(
+      ReasonPhrases.NO_CONTENT,
+      StatusCodes.NO_CONTENT
+    );
+  }
+  @httpPatch("/:id")
+  public async update(
+    @requestParam("id") id: string,
+    @requestBody() body: Partial<ClientPatchDTO>
+  ) {
+    await validate(body);
+    const changed = await this._clientService.update(id, body);
+    return BaseHttpResponse.success(
+      "Client updated successfully",
+      StatusCodes.ACCEPTED,
+      changed
     );
   }
 }

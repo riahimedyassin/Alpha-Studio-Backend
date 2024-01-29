@@ -21,7 +21,7 @@ export class AdminController extends BaseHttpController {
   ) {
     super();
   }
-  @httpPost("")
+  @httpPost("/register")
   public async register(@requestBody() body: AdminRegisterDTO) {
     const registered = await this._adminService.register(body);
     return BaseHttpResponse.success(

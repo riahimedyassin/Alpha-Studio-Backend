@@ -4,7 +4,7 @@ import { injectable } from "inversify";
 import { Admin } from "../../entities/Admin.entity";
 import { Client } from "../../entities/Client.entity";
 import { Point } from "../../entities/Point.entity";
-// import "dotenv/config";
+
 
 @injectable()
 export class DatabaseServiceImpl implements DatabaseService {

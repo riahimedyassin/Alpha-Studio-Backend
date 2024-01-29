@@ -4,14 +4,13 @@ import { inject } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
 import { ParsedQs } from "qs";
 import { TYPES } from "../constants/TYPES";
+import { AuthService } from "../services/auth/AuthService";
 import { BaseHttpResponse } from "../helpers/BaseHttpResponse";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { AuthService } from "../services/auth/AuthService";
 
-export class AdminMiddleware extends BaseMiddleware {
+export class ClientMiddleware extends BaseMiddleware {
   constructor(
-    @inject(TYPES.AuthService)
-    private readonly _authService: AuthService
+    @inject(TYPES.AuthService) private readonly _authService: AuthService
   ) {
     super();
   }
@@ -25,7 +24,7 @@ export class AdminMiddleware extends BaseMiddleware {
     next: NextFunction
   ): void {
     const id = req.get("id");
-    const exist = this._authService.existEntity(id!, "Admin");
+    const exist = this._authService.existEntity(id!, "Client");
     if (!exist) return this._forbiddenResponse;
     next();
   }
