@@ -106,5 +106,19 @@ export class ClientController extends BaseHttpController {
     const token = this._authService.generateToken(client.id);
     return BaseHttpResponse.token(token);
   }
-
+  @httpGet("/me")
+  public async getConnectedUser() {
+    const id = this.httpContext.request.get("id");
+    if (!id)
+      return BaseHttpResponse.error(
+        ReasonPhrases.UNAUTHORIZED,
+        StatusCodes.UNAUTHORIZED
+      );
+    const user = await this._clientService.getClient(Number(id));
+    return BaseHttpResponse.success(
+      "Client retrieved successfully",
+      StatusCodes.OK,
+      user
+    );
+  }
 }

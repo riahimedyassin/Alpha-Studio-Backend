@@ -19,6 +19,10 @@ import { AuthServiceImpl } from "../services/auth/AuthServiceImpl";
 import { AuthMiddleware } from "../middlewares/Auth.middleware";
 import { GlobalNotificationService } from "../services/global-notifications/GlobalNotificationService";
 import { GlobalNotificationServiceImpl } from "../services/global-notifications/GlobalNotificationServiceImpl";
+import { NotificationService } from "../services/notification/NotificationService";
+import { NotificationServiceImpl } from "../services/notification/NotificationServiceImpl";
+import { NotificationRepository } from "../repositories/notification/NotificationRepository";
+import { NotificationRepositoryImpl } from "../repositories/notification/NotificationRepositoryImpl";
 
 const container = new Container();
 
@@ -31,7 +35,10 @@ container.bind<AdminService>(TYPES.AdminService).to(AdminServiceImpl).inSingleto
 container.bind<AdminRepository>(TYPES.AdminRepository).to(AdminRepositoryImpl).inSingletonScope()
 container.bind<AuthService>(TYPES.AuthService).to(AuthServiceImpl).inSingletonScope()
 container.bind<AuthMiddleware>(TYPES.AuthMiddleware).to(AuthMiddleware) ; 
-container.bind<GlobalNotificationService>(TYPES.GlobalNotificationService).to(GlobalNotificationServiceImpl)
+container.bind<GlobalNotificationService>(TYPES.GlobalNotificationService).to(GlobalNotificationServiceImpl).inSingletonScope()
+container.bind<NotificationService>(TYPES.NotificationService).to(NotificationServiceImpl).inSingletonScope()
+container.bind<NotificationRepository>(TYPES.NotificationRepository).to(NotificationRepositoryImpl).inSingletonScope()
+
 
 
 
