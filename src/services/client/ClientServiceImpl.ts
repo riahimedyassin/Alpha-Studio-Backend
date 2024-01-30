@@ -39,4 +39,8 @@ export class ClientServiceImpl implements ClientService {
     const changed = await this._clientRepos.findOneAndUpdate(id, changes);
     return changed;
   }
+  public async login(email: string, password: string): Promise<Client | null> {
+      const client = await this._clientRepos.repos.findOneBy({email , password}); 
+      return client ; 
+  }
 }

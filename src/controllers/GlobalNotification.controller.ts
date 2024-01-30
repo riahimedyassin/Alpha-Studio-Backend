@@ -2,6 +2,7 @@ import { inject } from "inversify";
 import {
   BaseHttpController,
   controller,
+  httpDelete,
   httpGet,
   requestParam,
 } from "inversify-express-utils";
@@ -43,4 +44,18 @@ export class GlobalNotificationController extends BaseHttpController {
       notification
     );
   }
+  @httpDelete("/:id")
+  public async deleteNotification(@requestParam("id") id: string) {
+    const deleted = await this._globalNotificationService.delete(id);
+    if (deleted)
+      return BaseHttpResponse.success(
+        ReasonPhrases.NO_CONTENT,
+        StatusCodes.NO_CONTENT
+      );
+    return BaseHttpResponse.error(
+      "Cannot delete the notification ",
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+  
 }

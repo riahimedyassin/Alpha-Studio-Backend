@@ -28,9 +28,6 @@ export class PointServiceImpl implements PointService {
       await point.save();
       return point;
     }
-    CustomError.throw(
-      "Unable to find the points",
-      StatusCodes.INTERNAL_SERVER_ERROR
-    );
+    
   }
 }

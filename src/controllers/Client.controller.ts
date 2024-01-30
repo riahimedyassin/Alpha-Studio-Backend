@@ -18,11 +18,14 @@ import { ClientRegisterDTO } from "../dto/client/ClientRegister.dto";
 import { validate } from "class-validator";
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
 import { ClientPatchDTO } from "../dto/client/ClientPatch.dto";
+import { ClientLoginDTO } from "../dto/client/ClientLogin.dto";
+import { AuthService } from "../services/auth/AuthService";
 
 @controller("/api/v1/clients")
 export class ClientController extends BaseHttpController {
   constructor(
-    @inject(TYPES.ClientService) private _clientService: ClientService
+    @inject(TYPES.ClientService) private readonly _clientService: ClientService,
+    @inject(TYPES.AuthService) private readonly _authService: AuthService
   ) {
     super();
   }
@@ -53,9 +56,9 @@ export class ClientController extends BaseHttpController {
         200,
         client
       );
-    CustomError.throw(`Cannot find a client with ID : ${id}`, 404);
+    return BaseHttpResponse.error(`Cannot find a client with ID : ${id}`, 404);
   }
-  @httpPost("")
+  @httpPost("/register")
   public async register(@requestBody() body: ClientRegisterDTO) {
     await validate(body);
     const saved = await this._clientService.register(body);
@@ -91,4 +94,17 @@ export class ClientController extends BaseHttpController {
       changed
     );
   }
+  @httpPost("/login")
+  public async login(@requestBody() body: ClientLoginDTO) {
+    await validate(body);
+    const client = await this._clientService.login(body.email, body.password);
+    if (!client)
+      return BaseHttpResponse.error(
+        "Invalid email or password",
+        StatusCodes.BAD_REQUEST
+      );
+    const token = this._authService.generateToken(client.id);
+    return BaseHttpResponse.token(token);
+  }
+
 }

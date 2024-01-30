@@ -8,4 +8,5 @@ export interface ClientService {
   register(client: ClientRegisterDTO): Promise<Client>;
   delete(id: string): Promise<boolean>;
   update(id: string, changes: Partial<ClientPatchDTO>): Promise<Client>;
+  login(email :string , password : string ) : Promise<Client | null>
 }
