@@ -2,8 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Client } from "./Client.entity";
 
 @Entity()
 export class Notification {
@@ -20,4 +22,6 @@ export class Notification {
   read!: boolean;
   @CreateDateColumn()
   sent_at!: Date;
+  @ManyToOne(() => Client, (client) => client.id)
+  client_id!: Client;
 }

@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -40,4 +41,6 @@ export class Client extends BaseEntity {
   @OneToOne(() => Point, { eager: true, cascade: true })
   @JoinColumn()
   point!: Point;
+  @OneToMany(() => Point, (point) => point.id)
+  points!: Point[];
 }
