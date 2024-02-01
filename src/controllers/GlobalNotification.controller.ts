@@ -19,7 +19,7 @@ export class GlobalNotificationController extends BaseHttpController {
   ) {
     super();
   }
-  @httpGet("")
+  @httpGet("/")
   public async getAllSentNotifications() {
     const notifications =
       await this._globalNotificationService.getAllNotifications();

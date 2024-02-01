@@ -19,4 +19,8 @@ export class AdminRepositoryImpl implements AdminRepository {
   public async findOneByID(id: string): Promise<Admin | null> {
     return await this.repos.findOneBy({ id: Number(id) });
   }
+  public async find(): Promise<Admin[]> {
+    const admins = await this.repos.find();
+    return admins;
+  }
 }

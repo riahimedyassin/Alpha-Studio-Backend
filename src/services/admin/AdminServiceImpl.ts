@@ -5,7 +5,6 @@ import { AdminRepository } from "../../repositories/admin/AdminRepository";
 import { AdminRegisterDTO } from "../../dto/admin/AdminRegister.dto";
 import { Admin } from "../../models/Admin.model";
 
-
 @injectable()
 export class AdminServiceImpl implements AdminService {
   constructor(
@@ -22,6 +21,14 @@ export class AdminServiceImpl implements AdminService {
   }
   public async login(email: string, password: string): Promise<Admin | null> {
     const admin = this._adminRepository.repos.findOneBy({ email, password });
+    return admin;
+  }
+  public async getAll(): Promise<Admin[]> {
+    const admins = await this._adminRepository.find();
+    return admins;
+  }
+  public async getAdmin(id: string): Promise<Admin | null> {
+    const admin = await this._adminRepository.findOneByID(id);
     return admin;
   }
 }

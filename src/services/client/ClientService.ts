@@ -1,6 +1,6 @@
 import { ClientPatchDTO } from "../../dto/client/ClientPatch.dto";
 import { ClientRegisterDTO } from "../../dto/client/ClientRegister.dto";
-import { Client } from "../../models/Client.model";
+import { Client } from "../../entities/Client.entity"
 
 export interface ClientService {
   getAll(): Promise<Client[]>;

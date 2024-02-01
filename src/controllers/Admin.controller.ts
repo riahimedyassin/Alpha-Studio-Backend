@@ -2,8 +2,10 @@ import { inject } from "inversify";
 import {
   BaseHttpController,
   controller,
+  httpGet,
   httpPost,
   requestBody,
+  requestParam,
 } from "inversify-express-utils";
 import { TYPES } from "../constants/TYPES";
 import { AdminService } from "../services/admin/AdminService";
@@ -12,6 +14,7 @@ import { BaseHttpResponse } from "../helpers/BaseHttpResponse";
 import { validate } from "class-validator";
 import { StatusCodes } from "http-status-codes";
 import { AuthService } from "../services/auth/AuthService";
+import { AdminGlobalResponse } from "../dto/admin/AdminGlobalResponse.dto";
 
 @controller("/api/v1/admins")
 export class AdminController extends BaseHttpController {
@@ -42,5 +45,26 @@ export class AdminController extends BaseHttpController {
     const token = this._authService.generateToken(admin.id);
     return BaseHttpResponse.token(token);
   }
-  
+  @httpGet("/")
+  public async getAll() {
+    const admins = (await this._adminService.getAll()).map(
+      (admin) => new AdminGlobalResponse(admin.sup, admin.email, admin.id)
+    );
+    return BaseHttpResponse.success(
+      "Admins Retrieved successfully",
+      StatusCodes.OK,
+      admins
+    );
+  }
+  @httpGet("/:id")
+  public async getSingleAdmin(@requestParam("id") id: string) {
+    const admin = await this._adminService.getAdmin(id);
+    if (!admin)
+      return BaseHttpResponse.error("Admin not found", StatusCodes.NOT_FOUND);
+    return BaseHttpResponse.success(
+      "Admin retreived successfully",
+      StatusCodes.OK,
+      admin
+    );
+  }
 }

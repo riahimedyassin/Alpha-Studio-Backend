@@ -48,18 +48,7 @@ export class ClientController extends BaseHttpController {
       clients
     );
   }
-  @httpGet("/:id")
-  public async getClient(@requestParam("id") id: number) {
-    if (!id) CustomError.throw("Please provide a valide ID", 400);
-    const client = this._clientService.getClient(id);
-    if (client)
-      return BaseHttpResponse.success(
-        "Client retrieved successfully",
-        200,
-        client
-      );
-    return BaseHttpResponse.error(`Cannot find a client with ID : ${id}`, 404);
-  }
+
   @httpPost("/register")
   public async register(@requestBody() body: ClientRegisterDTO) {
     const errors = await validate(body);
@@ -69,32 +58,6 @@ export class ClientController extends BaseHttpController {
       "Client Registered successfully",
       201,
       saved
-    );
-  }
-  @httpDelete("/:id")
-  public async delete(@requestParam("id") id: string) {
-    const res = await this._clientService.delete(id);
-    if (!res)
-      return BaseHttpResponse.error(
-        "Cannot delete the client",
-        StatusCodes.INTERNAL_SERVER_ERROR
-      );
-    return BaseHttpResponse.success(
-      ReasonPhrases.NO_CONTENT,
-      StatusCodes.NO_CONTENT
-    );
-  }
-  @httpPatch("/:id")
-  public async update(
-    @requestParam("id") id: string,
-    @requestBody() body: Partial<ClientPatchDTO>
-  ) {
-    await validate(body);
-    const changed = await this._clientService.update(id, body);
-    return BaseHttpResponse.success(
-      "Client updated successfully",
-      StatusCodes.ACCEPTED,
-      changed
     );
   }
   @httpPost("/login")
@@ -122,6 +85,44 @@ export class ClientController extends BaseHttpController {
       "Client retrieved successfully",
       StatusCodes.OK,
       user
+    );
+  }
+  @httpGet("/:id")
+  public async getClient(@requestParam("id") id: number) {
+    if (!id) CustomError.throw("Please provide a valide ID", 400);
+    const client = this._clientService.getClient(id);
+    if (client)
+      return BaseHttpResponse.success(
+        "Client retrieved successfully",
+        200,
+        client
+      );
+    return BaseHttpResponse.error(`Cannot find a client with ID : ${id}`, 404);
+  }
+  @httpDelete("/:id")
+  public async delete(@requestParam("id") id: string) {
+    const res = await this._clientService.delete(id);
+    if (!res)
+      return BaseHttpResponse.error(
+        "Cannot delete the client",
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    return BaseHttpResponse.success(
+      ReasonPhrases.NO_CONTENT,
+      StatusCodes.NO_CONTENT
+    );
+  }
+  @httpPatch("/:id")
+  public async update(
+    @requestParam("id") id: string,
+    @requestBody() body: Partial<ClientPatchDTO>
+  ) {
+    await validate(body);
+    const changed = await this._clientService.update(id, body);
+    return BaseHttpResponse.success(
+      "Client updated successfully",
+      StatusCodes.ACCEPTED,
+      changed
     );
   }
 }
