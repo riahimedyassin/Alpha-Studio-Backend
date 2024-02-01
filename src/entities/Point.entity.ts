@@ -2,9 +2,11 @@ import {
   BaseEntity,
   Column,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Client } from "./Client.entity";
 
 @Entity("Point")
 export class Point extends BaseEntity {
@@ -25,4 +27,6 @@ export class Point extends BaseEntity {
 
   @UpdateDateColumn()
   updated_at!: Date;
+  @OneToOne(() => Client, (client) => client.point)
+  client!: Client;
 }

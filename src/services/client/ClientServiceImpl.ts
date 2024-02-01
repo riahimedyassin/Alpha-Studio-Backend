@@ -7,12 +7,14 @@ import { ClientRegisterDTO } from "../../dto/client/ClientRegister.dto";
 import { PointService } from "../point/PointService";
 import { DeleteResult } from "typeorm";
 import { ClientPatchDTO } from "../../dto/client/ClientPatch.dto";
+import { DatabaseService } from "../db/DatabaseService";
 
 @injectable()
 export class ClientServiceImpl implements ClientService {
   constructor(
     @inject(TYPES.ClientRepository) private _clientRepos: ClientRepository,
-    @inject(TYPES.PointService) private _pointService: PointService
+    @inject(TYPES.PointService) private _pointService: PointService,
+    @inject(TYPES.DatabaseService) private readonly _dbService: DatabaseService
   ) {}
   public async getAll(): Promise<Client[]> {
     const clients = await this._clientRepos.repos.find();
@@ -24,7 +26,7 @@ export class ClientServiceImpl implements ClientService {
   }
   public async register(client: ClientRegisterDTO): Promise<Client> {
     const point = await this._pointService.init();
-    client.setPoint = point;
+    client.point = point;
     const result = await this._clientRepos.repos.save(client);
     return result;
   }
@@ -40,7 +42,7 @@ export class ClientServiceImpl implements ClientService {
     return changed;
   }
   public async login(email: string, password: string): Promise<Client | null> {
-      const client = await this._clientRepos.repos.findOneBy({email , password}); 
-      return client ; 
+    const client = await this._clientRepos.repos.findOneBy({ email, password });
+    return client;
   }
 }

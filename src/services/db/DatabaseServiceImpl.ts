@@ -4,11 +4,12 @@ import { injectable } from "inversify";
 import { Admin } from "../../entities/Admin.entity";
 import { Client } from "../../entities/Client.entity";
 import { Point } from "../../entities/Point.entity";
-
+import { Notification } from "../../entities/Notification.entity";
 
 @injectable()
 export class DatabaseServiceImpl implements DatabaseService {
-  public db!: DataSource;
+  public readonly db!: DataSource;
+  public manager!: DataSource;
   constructor() {
     const { DB_HOST, DB_USERNAME, DB_DATABASE, DB_PASSWORD, DB_PORT } =
       process.env;
@@ -20,10 +21,16 @@ export class DatabaseServiceImpl implements DatabaseService {
       password: DB_PASSWORD,
       database: DB_DATABASE,
       synchronize: true,
-      logging: true,
-      entities: [Admin, Client, Point],
+      entities: [Admin, Client, Point,Notification],
     });
     this.db = AppDataSource;
+    AppDataSource.initialize().then((connection) => {
+      this.manager = connection;
+    });
+  }
+  public async connection() {
+    const connection = await this.db.initialize();
+    return connection;
   }
   public async check() {}
   public async connect(): Promise<void> {}

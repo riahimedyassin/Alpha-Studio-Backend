@@ -8,7 +8,7 @@ import { NotificationRepository } from "../../repositories/notification/Notifica
 @injectable()
 export class NotificationServiceImpl implements NotificationService {
     constructor(@inject(TYPES.NotificationRepository) private readonly _notificationRepository : NotificationRepository){}
-    public async getClientNotifications(id : string): Promise<Notification[]> {
+    // public async getClientNotifications(id : string): Promise<Notification[]> {
         
-    }
+    // }
 }

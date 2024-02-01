@@ -7,7 +7,7 @@ export class CustomError extends Error {
   ) {
     super(message);
   }
-  public static throw(message?: string, status?: number) {
+  public static throw(message?: any, status?: number) {
     throw new this(message, status);
   }
 }

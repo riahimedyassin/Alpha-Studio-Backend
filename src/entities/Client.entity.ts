@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Point } from "./Point.entity";
+import { Notification } from "./Notification.entity";
 
 @Entity("Client")
 export class Client extends BaseEntity {
@@ -38,9 +39,9 @@ export class Client extends BaseEntity {
   created_at!: Date;
   @UpdateDateColumn()
   updated_at!: Date;
-  @OneToOne(() => Point, { eager: true, cascade: true })
-  @JoinColumn()
+  @OneToOne(() => Point, (point) => point.client)
+  @JoinColumn({ name: "point_id" })
   point!: Point;
-  @OneToMany(() => Point, (point) => point.id)
-  points!: Point[];
+  @OneToMany(() => Notification, (notification) => notification.client)
+  notification!: Notification[];
 }

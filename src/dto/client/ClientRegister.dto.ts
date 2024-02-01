@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength } from "class-validator";
+import { IsDate, IsEmail, IsString, MinLength } from "class-validator";
 import { Point } from "../../entities/Point.entity";
 
 export class ClientRegisterDTO {
@@ -18,6 +18,8 @@ export class ClientRegisterDTO {
     message: "Password length should be longer than 6 caracters",
   })
   public readonly password: string;
+  @IsDate()
+  public birthdate!: Date;
   public point: Point;
   constructor(
     first_name: string,
@@ -32,7 +34,7 @@ export class ClientRegisterDTO {
     this.password = password;
     this.point = point;
   }
-  public set setPoint(id: Point) {
-    this.point = id;
+  public setPoint(point: Point) {
+    this.point = point;
   }
 }

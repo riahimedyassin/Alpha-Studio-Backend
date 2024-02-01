@@ -22,6 +22,6 @@ export class Notification {
   read!: boolean;
   @CreateDateColumn()
   sent_at!: Date;
-  @ManyToOne(() => Client, (client) => client.id)
-  client_id!: Client;
+  @ManyToOne(() => Client, (client) => client.notification)
+  client!: Client;
 }

@@ -13,7 +13,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
   get repos(): Repository<Notification> {
     return this._dbService.db.getRepository(Notification);
   }
-  public async findByClientID(): Promise<Notification[]> {
-        const notifications = await this.repos.findBy({})
-  }
+  // public async findByClientID(): Promise<Notification[]> {
+  //       const notifications = await this.repos.findBy({})
+  // }
 }

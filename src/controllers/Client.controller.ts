@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { inject } from "inversify";
 import {
   BaseHttpController,
@@ -20,6 +21,7 @@ import { StatusCodes, ReasonPhrases } from "http-status-codes";
 import { ClientPatchDTO } from "../dto/client/ClientPatch.dto";
 import { ClientLoginDTO } from "../dto/client/ClientLogin.dto";
 import { AuthService } from "../services/auth/AuthService";
+import { validationFailureHandler } from "../helpers/ValidationFailureHandler";
 
 @controller("/api/v1/clients")
 export class ClientController extends BaseHttpController {
@@ -60,7 +62,8 @@ export class ClientController extends BaseHttpController {
   }
   @httpPost("/register")
   public async register(@requestBody() body: ClientRegisterDTO) {
-    await validate(body);
+    const errors = await validate(body);
+    validationFailureHandler(errors);
     const saved = await this._clientService.register(body);
     return BaseHttpResponse.success(
       "Client Registered successfully",
