@@ -21,15 +21,16 @@ export class DatabaseServiceImpl implements DatabaseService {
       password: DB_PASSWORD,
       database: DB_DATABASE,
       synchronize: true,
-      entities: [Admin, Client, Point,Notification],
+      entities: [Admin, Client, Point, Notification],
     });
     this.db = AppDataSource;
     AppDataSource.initialize().then((connection) => {
       this.manager = connection;
     });
   }
-  public async connection() {
-    const connection = await this.db.initialize();
+  public connection() {
+    let connection;
+    this.db.initialize().then((cnx) => connection = cnx);
     return connection;
   }
   public async check() {}

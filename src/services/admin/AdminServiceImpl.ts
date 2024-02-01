@@ -1,10 +1,12 @@
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { AdminService } from "./AdminService";
 import { TYPES } from "../../constants/TYPES";
 import { AdminRepository } from "../../repositories/admin/AdminRepository";
 import { AdminRegisterDTO } from "../../dto/admin/AdminRegister.dto";
 import { Admin } from "../../models/Admin.model";
 
+
+@injectable()
 export class AdminServiceImpl implements AdminService {
   constructor(
     @inject(TYPES.AdminRepository)

@@ -23,9 +23,9 @@ export class ClientMiddleware extends BaseMiddleware {
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): void {
-    const id = req.get("id");
-    const exist = this._authService.existEntity(id!, "Client");
-    if (!exist) return this._forbiddenResponse;
-    next();
+    // const id = req.get("id");
+    // const exist = this._authService.existEntity(id!, "Client");
+    // if (!exist) return this._forbiddenResponse;
+    // next();
   }
 }

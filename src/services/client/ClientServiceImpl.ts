@@ -7,14 +7,12 @@ import { ClientRegisterDTO } from "../../dto/client/ClientRegister.dto";
 import { PointService } from "../point/PointService";
 import { DeleteResult } from "typeorm";
 import { ClientPatchDTO } from "../../dto/client/ClientPatch.dto";
-import { DatabaseService } from "../db/DatabaseService";
 
 @injectable()
 export class ClientServiceImpl implements ClientService {
   constructor(
     @inject(TYPES.ClientRepository) private _clientRepos: ClientRepository,
-    @inject(TYPES.PointService) private _pointService: PointService,
-    @inject(TYPES.DatabaseService) private readonly _dbService: DatabaseService
+    @inject(TYPES.PointService) private _pointService: PointService
   ) {}
   public async getAll(): Promise<Client[]> {
     const clients = await this._clientRepos.repos.find();

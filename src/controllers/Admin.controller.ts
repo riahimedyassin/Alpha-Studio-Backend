@@ -42,4 +42,5 @@ export class AdminController extends BaseHttpController {
     const token = this._authService.generateToken(admin.id);
     return BaseHttpResponse.token(token);
   }
+  
 }

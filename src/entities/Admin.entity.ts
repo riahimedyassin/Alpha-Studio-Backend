@@ -10,6 +10,8 @@ export class Admin extends BaseEntity {
   email!: string;
   @Column()
   password!: string;
-  @Column()
+  @Column({
+    default:false
+  })
   sup!: boolean;
 }

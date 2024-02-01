@@ -6,9 +6,9 @@ import { InversifyExpressServer } from "inversify-express-utils";
 import { container } from "./config/inversify.config";
 import express, { urlencoded } from "express";
 import "./controllers/Client.controller";
+import './controllers/Admin.controller'
 import "dotenv/config";
 import { ErrorHandler } from "./errors/error-handler";
-import { createConnection } from "typeorm";
 
 export class Bootstrap {
   constructor(

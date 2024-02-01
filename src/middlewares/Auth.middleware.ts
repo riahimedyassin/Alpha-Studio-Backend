@@ -23,18 +23,18 @@ export class AuthMiddleware extends BaseMiddleware {
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): void {
-    try {
-      const payload = req.get("Authorization");
-      if (!payload) return this._unAuthResponse;
-      if (!payload.includes("Bearer")) return this._unAuthResponse;
-      const rawToken = payload.split(" ")[1];
-      if (!rawToken) return this._unAuthResponse;
-      const verfication = this._authService.verifyToken(rawToken);
-      if (!verfication) return this._unAuthResponse;
-      res.set("id", verfication.toString());
-      next();
-    } catch (error) {
-      return this._unAuthResponse;
-    }
+    // try {
+    //   const payload = req.get("Authorization");
+    //   if (!payload) return this._unAuthResponse;
+    //   if (!payload.includes("Bearer")) return this._unAuthResponse;
+    //   const rawToken = payload.split(" ")[1];
+    //   if (!rawToken) return this._unAuthResponse;
+    //   const verfication = this._authService.verifyToken(rawToken);
+    //   if (!verfication) return this._unAuthResponse;
+    //   res.set("id", verfication.toString());
+    //   next();
+    // } catch (error) {
+    //   return this._unAuthResponse;
+    // }
   }
 }

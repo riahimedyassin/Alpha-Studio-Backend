@@ -20,6 +20,7 @@ export class BaseHttpResponse {
       error: message,
       status: status,
     });
+    return response
   }
   public static token(token: string) {
     const response = new HttpResponseMessage(StatusCodes.OK);
@@ -28,5 +29,6 @@ export class BaseHttpResponse {
       stauts: StatusCodes.OK,
       message: "Token Retrieved successfully",
     });
+    return response
   }
 }

@@ -7,13 +7,15 @@ import { Admin } from "../../entities/Admin.entity";
 
 @injectable()
 export class AdminRepositoryImpl implements AdminRepository {
+  public repos!: Repository<Admin>;
   constructor(
     @inject(TYPES.DatabaseService) private readonly _dbService: DatabaseService
-  ) {}
-  get repos(): Repository<Admin> {
-    const repos = this._dbService.db.getRepository(Admin);
-    return repos;
+  ) {
+    this._dbService.db
+      .initialize()
+      .then((cnx) => (this.repos = cnx.getRepository(Admin)));
   }
+
   public async findOneByID(id: string): Promise<Admin | null> {
     return await this.repos.findOneBy({ id: Number(id) });
   }

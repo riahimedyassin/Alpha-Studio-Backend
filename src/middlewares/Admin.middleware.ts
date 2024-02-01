@@ -24,9 +24,12 @@ export class AdminMiddleware extends BaseMiddleware {
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): void {
-    const id = req.get("id");
-    const exist = this._authService.existEntity(id!, "Admin");
-    if (!exist) return this._forbiddenResponse;
-    next();
+    // const id = req.get("id");
+    // const exist = this._authService.existEntity(id!, "Admin");
+    // if (!exist){
+    //   res.status(403).json({message : "UNAUTH"})
+    //   return ; 
+    // };
+    // next();
   }
 }
