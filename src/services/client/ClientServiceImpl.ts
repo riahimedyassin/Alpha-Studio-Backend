@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { ClientService } from "./ClientService";
 import { TYPES } from "../../constants/TYPES";
 import { ClientRepository } from "../../repositories/client/ClientRepository";
-import { Client } from "../../models/Client.model";
+import { Client } from "../../entities/Client.entity";
 import { ClientRegisterDTO } from "../../dto/client/ClientRegister.dto";
 import { PointService } from "../point/PointService";
 import { DeleteResult } from "typeorm";

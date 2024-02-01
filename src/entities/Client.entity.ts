@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import { Point } from "./Point.entity";
 import { Notification } from "./Notification.entity";
+import { QRCode } from "./QRCode.entity";
 
 @Entity("Client")
 export class Client extends BaseEntity {
@@ -44,4 +45,7 @@ export class Client extends BaseEntity {
   point!: Point;
   @OneToMany(() => Notification, (notification) => notification.client)
   notification!: Notification[];
+  @OneToOne(()=> QRCode, (qrcode) => qrcode.client)
+  @JoinColumn({name:"qr_code"})
+  qr_code! : QRCode 
 }

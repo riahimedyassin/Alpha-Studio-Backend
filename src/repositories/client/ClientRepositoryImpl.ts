@@ -8,13 +8,11 @@ import { ClientPatchDTO } from "../../dto/client/ClientPatch.dto";
 
 @injectable()
 export class ClientRepositoryImpl implements ClientRepository {
-  public repos!: Repository<Client>;
+  public repos: Repository<Client>;
   constructor(
     @inject(TYPES.DatabaseService) private _dbService: DatabaseService
   ) {
-    this._dbService.db
-      .initialize()
-      .then((cnx) => (this.repos = cnx.getRepository(Client)));
+    this.repos = this._dbService.db.getRepository(Client);
   }
   public async findOneByID(id: string): Promise<Client | null> {
     return await this.repos.findOneBy({ id: Number(id) });

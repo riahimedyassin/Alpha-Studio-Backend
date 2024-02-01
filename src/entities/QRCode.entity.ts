@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Client } from "./Client.entity";
 
 @Entity("QRCode")
 export class QRCode {
@@ -6,4 +7,6 @@ export class QRCode {
   id!: number;
   @Column()
   link!: string;
+  @OneToOne(()=> Client , (client) => client.qr_code)
+  client! : Client
 }

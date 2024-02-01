@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { QRCode } from "./QRCode.entity";
 
 @Entity('Admin')
 export class Admin extends BaseEntity {
@@ -14,4 +15,5 @@ export class Admin extends BaseEntity {
     default:false
   })
   sup!: boolean;
+  
 }

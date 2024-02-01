@@ -7,10 +7,10 @@ import { QRCode } from "../../entities/QRCode.entity";
 
 @injectable()
 export class QRCodeRepositoryImpl implements QRCodeRepository {
+  public repos: Repository<QRCode>;
   constructor(
     @inject(TYPES.DatabaseService) private readonly _dbService: DatabaseService
-  ) {}
-  get repos(): Repository<QRCode> {
-    return this._dbService.db.getRepository(QRCode);
+  ) {
+    this.repos = this._dbService.db.getRepository(QRCode);
   }
 }

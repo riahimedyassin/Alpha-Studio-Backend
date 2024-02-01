@@ -7,10 +7,10 @@ import { Repository } from "typeorm";
 
 @injectable()
 export class PointRepositoryImpl implements PointRepository {
+  public repos: Repository<Point>;
   constructor(
     @inject(TYPES.DatabaseService) private readonly _dbService: DatabaseService
-  ) {}
-  public get repos(): Repository<Point> {
-    return this._dbService.db.getRepository(Point);
+  ) {
+    this.repos = this._dbService.db.getRepository(Point);
   }
 }

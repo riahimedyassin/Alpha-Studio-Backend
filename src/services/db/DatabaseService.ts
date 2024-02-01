@@ -4,5 +4,5 @@ export interface DatabaseService {
   db: DataSource;
   manager: DataSource;
   check(): Promise<void>;
-  connect(): Promise<void>;
+  connectToDB(): Promise<void>;
 }

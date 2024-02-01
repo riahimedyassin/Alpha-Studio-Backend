@@ -8,12 +8,13 @@ import { GlobalNotification } from "../../entities/GlobalNotification.entity";
 export class GlobalNotificationRepositoryImpl
   implements GlobalNotificationRepository
 {
+  public repos: Repository<GlobalNotification>;
   constructor(
     @inject(TYPES.DatabaseService) private readonly _dbService: DatabaseService
-  ) {}
-  get repos(): Repository<GlobalNotification> {
-    return this._dbService.db.getRepository(GlobalNotification);
+  ) {
+    this.repos = this._dbService.db.getRepository(GlobalNotification);
   }
+
   public async findOneAndDelete(id: string) {
     return (
       (await this.repos.delete({ id: Number(id) })) instanceof DeleteResult

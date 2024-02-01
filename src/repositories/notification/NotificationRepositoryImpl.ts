@@ -13,9 +13,7 @@ export class NotificationRepositoryImpl implements NotificationRepository {
   constructor(
     @inject(TYPES.DatabaseService) private readonly _dbService: DatabaseService
   ) {
-    this._dbService.db
-      .initialize()
-      .then((cnx) => (this.repos = cnx.getRepository(Notification)));
+    this.repos = this._dbService.db.getRepository(Notification);
   }
   public async findByClient(client: Client): Promise<Notification[]> {
     const notifications = await this.repos.findBy({ client: client });
@@ -27,8 +25,8 @@ export class NotificationRepositoryImpl implements NotificationRepository {
   ): Promise<boolean> {
     const notification = await this.repos.update(
       { id: Number(id) },
-      { read: changes.read ,}
+      { read: changes.read }
     );
-    return notification instanceof UpdateResult
+    return notification instanceof UpdateResult;
   }
 }

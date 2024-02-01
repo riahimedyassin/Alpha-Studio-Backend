@@ -5,10 +5,12 @@ import { Admin } from "../../entities/Admin.entity";
 import { Client } from "../../entities/Client.entity";
 import { Point } from "../../entities/Point.entity";
 import { Notification } from "../../entities/Notification.entity";
+import { GlobalNotification } from "../../entities/GlobalNotification.entity";
+import { QRCode } from "../../entities/QRCode.entity";
 
 @injectable()
 export class DatabaseServiceImpl implements DatabaseService {
-  public readonly db!: DataSource;
+  public db!: DataSource;
   public manager!: DataSource;
   constructor() {
     const { DB_HOST, DB_USERNAME, DB_DATABASE, DB_PASSWORD, DB_PORT } =
@@ -21,7 +23,14 @@ export class DatabaseServiceImpl implements DatabaseService {
       password: DB_PASSWORD,
       database: DB_DATABASE,
       synchronize: true,
-      entities: [Admin, Client, Point, Notification],
+      entities: [
+        Admin,
+        Client,
+        Point,
+        Notification,
+        GlobalNotification,
+        QRCode,
+      ],
     });
     this.db = AppDataSource;
     AppDataSource.initialize().then((connection) => {
@@ -30,9 +39,11 @@ export class DatabaseServiceImpl implements DatabaseService {
   }
   public connection() {
     let connection;
-    this.db.initialize().then((cnx) => connection = cnx);
+    this.db.initialize().then((cnx) => (connection = cnx));
     return connection;
   }
   public async check() {}
-  public async connect(): Promise<void> {}
+  public async connectToDB(): Promise<void> {
+    this.db.initialize().then((cnx) => (this.db = cnx));
+  }
 }
