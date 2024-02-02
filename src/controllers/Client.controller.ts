@@ -39,7 +39,8 @@ export class ClientController extends BaseHttpController {
           client.first_name,
           client.last_name,
           client.email,
-          client.created_at
+          client.created_at,
+          client.point
         )
     );
     return BaseHttpResponse.success(
@@ -80,24 +81,42 @@ export class ClientController extends BaseHttpController {
         ReasonPhrases.UNAUTHORIZED,
         StatusCodes.UNAUTHORIZED
       );
-    const user = await this._clientService.getClient(Number(id));
+    const user = await this._clientService.getClient(id);
+    if (!user)
+      return BaseHttpResponse.error(
+        ReasonPhrases.UNAUTHORIZED,
+        StatusCodes.UNAUTHORIZED
+      );
     return BaseHttpResponse.success(
       "Client retrieved successfully",
       StatusCodes.OK,
-      user
+      new ClientGlobalResponseDTO(
+        user.first_name,
+        user.last_name,
+        user.email,
+        user.created_at,
+        user.point
+      )
     );
   }
   @httpGet("/:id")
-  public async getClient(@requestParam("id") id: number) {
-    if (!id) CustomError.throw("Please provide a valide ID", 400);
-    const client = this._clientService.getClient(id);
-    if (client)
-      return BaseHttpResponse.success(
-        "Client retrieved successfully",
-        200,
-        client
+  public async getClient(@requestParam("id") id: string) {
+    if (!id)
+      BaseHttpResponse.error(
+        "Please provide a valide ID",
+        StatusCodes.BAD_REQUEST
       );
-    return BaseHttpResponse.error(`Cannot find a client with ID : ${id}`, 404);
+    const client = await this._clientService.getClient(id);
+    if (!client)
+      return BaseHttpResponse.error(
+        `Cannot find a client with ID : ${id}`,
+        StatusCodes.NOT_FOUND
+      );
+    return BaseHttpResponse.success(
+      "Client retrieved successfully",
+      StatusCodes.OK,
+      client
+    );
   }
   @httpDelete("/:id")
   public async delete(@requestParam("id") id: string) {

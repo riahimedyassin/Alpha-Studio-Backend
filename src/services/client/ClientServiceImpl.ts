@@ -5,7 +5,6 @@ import { ClientRepository } from "../../repositories/client/ClientRepository";
 import { Client } from "../../entities/Client.entity";
 import { ClientRegisterDTO } from "../../dto/client/ClientRegister.dto";
 import { PointService } from "../point/PointService";
-import { DeleteResult } from "typeorm";
 import { ClientPatchDTO } from "../../dto/client/ClientPatch.dto";
 
 @injectable()
@@ -15,22 +14,24 @@ export class ClientServiceImpl implements ClientService {
     @inject(TYPES.PointService) private _pointService: PointService
   ) {}
   public async getAll(): Promise<Client[]> {
-    const clients = await this._clientRepos.repos.find();
+    const clients = await this._clientRepos.repos.find({
+      relations: ["point"],
+    });
     return clients;
   }
-  public async getClient(id: number): Promise<Client | null> {
-    const client = await this._clientRepos.repos.findOneBy({ id: id });
+  public async getClient(id: string): Promise<Client | null> {
+    const client = await this._clientRepos.findOneByID(id);
     return client;
   }
-  public async register(client: ClientRegisterDTO): Promise<Client> {
+  public async register(client: ClientRegisterDTO): Promise<Client | null> {
     const point = await this._pointService.init();
     client.point = point;
-    const result = await this._clientRepos.repos.save(client);
+    const result = await this._clientRepos.save(client);
     return result;
   }
-  public async delete(id: string) {
-    const deleted = await this._clientRepos.repos.delete({ id: Number(id) });
-    return deleted instanceof DeleteResult;
+  public async delete(id: string) : Promise<boolean> {
+    const deleted = await this._clientRepos.findOneAndDelete(id);
+    return deleted;
   }
   public async update(
     id: string,

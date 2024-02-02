@@ -2,9 +2,10 @@ import { inject, injectable } from "inversify";
 import { TYPES } from "../../constants/TYPES";
 import { DatabaseService } from "../../services/db/DatabaseService";
 import { Client } from "../../entities/Client.entity";
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { ClientRepository } from "./ClientRepository";
 import { ClientPatchDTO } from "../../dto/client/ClientPatch.dto";
+import { ClientRegisterDTO } from "../../dto/client/ClientRegister.dto";
 
 @injectable()
 export class ClientRepositoryImpl implements ClientRepository {
@@ -24,5 +25,13 @@ export class ClientRepositoryImpl implements ClientRepository {
     await this.repos.update({ id: Number(id) }, changes);
     const user = await this.findOneByID(id);
     return <Client>user;
+  }
+  public async save(client: ClientRegisterDTO): Promise<Client | null> {
+    const saved = await this.repos.save(client);
+    return saved;
+  }
+  public async findOneAndDelete(id: string): Promise<boolean> {
+    const deleted = await this.repos.delete({ id: Number(id) });
+    return deleted instanceof DeleteResult;
   }
 }

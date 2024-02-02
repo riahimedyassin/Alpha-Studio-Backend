@@ -4,8 +4,8 @@ import { Client } from "../../entities/Client.entity"
 
 export interface ClientService {
   getAll(): Promise<Client[]>;
-  getClient(id: number): Promise<Client | null>;
-  register(client: ClientRegisterDTO): Promise<Client>;
+  getClient(id: string): Promise<Client | null>;
+  register(client: ClientRegisterDTO): Promise<Client | null>;
   delete(id: string): Promise<boolean>;
   update(id: string, changes: Partial<ClientPatchDTO>): Promise<Client>;
   login(email :string , password : string ) : Promise<Client | null>
