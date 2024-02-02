@@ -29,6 +29,8 @@ import { QRCodeService } from "../services/qr-code/QRCodeService";
 import { QRCodeServiceImpl } from "../services/qr-code/QRCodeServiceImpl";
 import { GlobalNotificationRepository } from "../repositories/global-notification/GlobalNotificationRepository";
 import { GlobalNotificationRepositoryImpl } from "../repositories/global-notification/GlobalNotificationRepositoryImpl";
+import { AdminMiddleware } from "../middlewares/Admin.middleware";
+import { ClientMiddleware } from "../middlewares/Client.middleware";
 
 const container = new Container();
 
@@ -64,7 +66,6 @@ container
   .bind<AuthService>(TYPES.AuthService)
   .to(AuthServiceImpl)
   .inSingletonScope();
-container.bind<AuthMiddleware>(TYPES.AuthMiddleware).to(AuthMiddleware);
 container
   .bind<GlobalNotificationService>(TYPES.GlobalNotificationService)
   .to(GlobalNotificationServiceImpl)
@@ -89,5 +90,9 @@ container
   .bind<GlobalNotificationRepository>(TYPES.GlobalNotificationRepository)
   .to(GlobalNotificationRepositoryImpl)
   .inSingletonScope();
-
+container.bind<AuthMiddleware>(TYPES.AuthMiddleware).to(AuthMiddleware);
+container.bind<AdminMiddleware>(TYPES.AdminAuthMiddleware).to(AdminMiddleware);
+container
+  .bind<ClientMiddleware>(TYPES.ClientAuthMiddleware)
+  .to(ClientMiddleware);
 export { container };

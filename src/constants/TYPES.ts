@@ -13,5 +13,8 @@ export const TYPES = {
   NotificationRepository: Symbol.for("NotificationRepository"),
   QRCodeRepository: Symbol.for("QRCodeRepository"),
   QRCodeService: Symbol.for("QRCodeService"),
-  GlobalNotificationRepository : Symbol.for('GlobalNotificationRepository')
+  GlobalNotificationRepository : Symbol.for('GlobalNotificationRepository'),
+  AdminAuthMiddleware : Symbol.for('AdminAuthMiddleware'), 
+  ClientAuthMiddleware : Symbol.for('ClientAuthMiddleware'), 
+
 };

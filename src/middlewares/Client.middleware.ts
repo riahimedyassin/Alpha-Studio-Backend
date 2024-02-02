@@ -5,8 +5,8 @@ import { BaseMiddleware } from "inversify-express-utils";
 import { ParsedQs } from "qs";
 import { TYPES } from "../constants/TYPES";
 import { AuthService } from "../services/auth/AuthService";
-import { BaseHttpResponse } from "../helpers/BaseHttpResponse";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
+import { CustomError } from "../errors/custom-error";
 
 export class ClientMiddleware extends BaseMiddleware {
   constructor(
@@ -14,18 +14,20 @@ export class ClientMiddleware extends BaseMiddleware {
   ) {
     super();
   }
-  private _forbiddenResponse = BaseHttpResponse.error(
-    ReasonPhrases.FORBIDDEN,
-    StatusCodes.FORBIDDEN
-  );
   handler(
     req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): void {
-    // const id = req.get("id");
-    // const exist = this._authService.existEntity(id!, "Client");
-    // if (!exist) return this._forbiddenResponse;
-    // next();
+    const id = req.get("id");
+    const exist = this._authService.existEntity(id!, "Client");
+    if (!exist) {
+      res.status(StatusCodes.FORBIDDEN).json({
+        error: ReasonPhrases.FORBIDDEN,
+        status: StatusCodes.FORBIDDEN,
+      });
+      return;
+    }
+    next();
   }
 }

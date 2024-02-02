@@ -31,7 +31,7 @@ export class ClientController extends BaseHttpController {
   ) {
     super();
   }
-  @httpGet("/")
+  @httpGet("/",TYPES.AuthMiddleware,TYPES.AdminAuthMiddleware)
   public async getAllClients() {
     const clients = (await this._clientService.getAll()).map(
       (client) =>
