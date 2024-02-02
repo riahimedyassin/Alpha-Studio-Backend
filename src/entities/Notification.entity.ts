@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import { Client } from "./Client.entity";
 
-@Entity()
+@Entity('Notifications')
 export class Notification {
   @PrimaryGeneratedColumn()
   id!: number;

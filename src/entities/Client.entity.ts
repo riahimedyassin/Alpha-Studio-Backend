@@ -40,12 +40,12 @@ export class Client extends BaseEntity {
   created_at!: Date;
   @UpdateDateColumn()
   updated_at!: Date;
-  @OneToOne(() => Point, (point) => point.client)
+  @OneToOne(() => Point, (point) => point.client, { eager: true })
   @JoinColumn({ name: "point_id" })
   point!: Point;
   @OneToMany(() => Notification, (notification) => notification.client)
   notification!: Notification[];
-  @OneToOne(()=> QRCode, (qrcode) => qrcode.client)
-  @JoinColumn({name:"qr_code"})
-  qr_code! : QRCode 
+  @OneToOne(() => QRCode, (qrcode) => qrcode.client)
+  @JoinColumn({ name: "qr_code" })
+  qr_code!: QRCode;
 }

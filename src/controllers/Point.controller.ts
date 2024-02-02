@@ -3,6 +3,7 @@ import {
   BaseHttpController,
   controller,
   httpGet,
+  httpPost,
   requestParam,
 } from "inversify-express-utils";
 import { TYPES } from "../constants/TYPES";
@@ -19,12 +20,21 @@ export class PointController extends BaseHttpController {
   ) {
     super();
   }
-  @httpGet("/increment/:id")
+  @httpPost("/increment/:id")
   public async getClientPoints(@requestParam("id") id: string) {
     const client = await this._clientService.getClient(id);
-    if(!client) return BaseHttpResponse.error('Unregistered user',StatusCodes.NOT_FOUND) ; 
-    const point = await this._pointService.increment(client);
-    if(!point) return BaseHttpResponse.error('Could not update points',StatusCodes.INTERNAL_SERVER_ERROR) ; 
-    return BaseHttpResponse.success('Points added successfully',StatusCodes.OK,point) ; 
+    if (!client)
+      return BaseHttpResponse.error("Unregistered user", StatusCodes.NOT_FOUND);
+    const point = await this._pointService.increment(client.point.id);
+    if (!point)
+      return BaseHttpResponse.error(
+        "Could not update points",
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    return BaseHttpResponse.success(
+      "Points added successfully",
+      StatusCodes.OK,
+      point
+    );
   }
 }

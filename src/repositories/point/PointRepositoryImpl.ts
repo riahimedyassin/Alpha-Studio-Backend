@@ -14,8 +14,8 @@ export class PointRepositoryImpl implements PointRepository {
   ) {
     this.repos = this._dbService.db.getRepository(Point);
   }
-  public async findByID(id: string): Promise<Point | null> {
-    const point = this.repos.findOneBy({ id: Number(id) });
+  public async findByID(id: number): Promise<Point | null> {
+    const point = this.repos.findOneBy({ id: id });
     return point;
   }
   public async save(point: Partial<Point>): Promise<Point> {

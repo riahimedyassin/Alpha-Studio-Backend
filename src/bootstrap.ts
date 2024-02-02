@@ -1,13 +1,16 @@
-import { inject } from "inversify";
+import "dotenv/config";
 import "reflect-metadata";
+import "./controllers/Client.controller";
+import "./controllers/Admin.controller";
+import './controllers/Point.controller'
+import './controllers/GlobalNotification.controller'
+import './controllers/Notification.controller'
+import { inject } from "inversify";
 import { TYPES } from "./constants/TYPES";
 import { DatabaseService } from "./services/db/DatabaseService";
 import { InversifyExpressServer } from "inversify-express-utils";
 import { container } from "./config/inversify.config";
 import express, { urlencoded } from "express";
-import "./controllers/Client.controller";
-import "./controllers/Admin.controller";
-import "dotenv/config";
 import { ErrorHandler } from "./errors/error-handler";
 
 export class Bootstrap {

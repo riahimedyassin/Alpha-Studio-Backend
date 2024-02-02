@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 
-@Entity()
+@Entity('GlobalNotifications')
 export class GlobalNotification {
   @PrimaryGeneratedColumn()
   id!: number;

@@ -16,7 +16,7 @@ export class ClientRepositoryImpl implements ClientRepository {
     this.repos = this._dbService.db.getRepository(Client);
   }
   public async findOneByID(id: string): Promise<Client | null> {
-    return await this.repos.findOneBy({ id: Number(id) });
+    return await this.repos.findOneBy({ id: Number(id)   });
   }
   public async findOneAndUpdate(
     id: string,

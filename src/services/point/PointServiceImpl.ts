@@ -17,8 +17,8 @@ export class PointServiceImpl implements PointService {
     const point = await this._pointRepositroy.save({});
     return point;
   }
-  public async increment(client: Client): Promise<Point | null> {
-    const point = await this._pointRepositroy.findByClient(client);
+  public async increment(id: number): Promise<Point | null> {
+    const point = await this._pointRepositroy.findByID(id);
     if (point) {
       if (point?.current === 9) {
         point.current = 0;

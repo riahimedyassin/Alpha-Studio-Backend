@@ -1,10 +1,12 @@
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { GlobalNotificationRepository } from "./GlobalNotificationRepository";
 import { TYPES } from "../../constants/TYPES";
 import { DatabaseService } from "../../services/db/DatabaseService";
 import { DeleteResult, Repository } from "typeorm";
 import { GlobalNotification } from "../../entities/GlobalNotification.entity";
 
+
+@injectable()
 export class GlobalNotificationRepositoryImpl
   implements GlobalNotificationRepository
 {

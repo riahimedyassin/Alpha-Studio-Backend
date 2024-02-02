@@ -27,26 +27,67 @@ import { QRCodeRepository } from "../repositories/qr-code/QRCodeRepository";
 import { QRCodeRepositoryImpl } from "../repositories/qr-code/QRCodeRepositoryImpl";
 import { QRCodeService } from "../services/qr-code/QRCodeService";
 import { QRCodeServiceImpl } from "../services/qr-code/QRCodeServiceImpl";
+import { GlobalNotificationRepository } from "../repositories/global-notification/GlobalNotificationRepository";
+import { GlobalNotificationRepositoryImpl } from "../repositories/global-notification/GlobalNotificationRepositoryImpl";
 
 const container = new Container();
 
-container.bind<DatabaseService>(TYPES.DatabaseService).to(DatabaseServiceImpl).inSingletonScope();
-container.bind<ClientService>(TYPES.ClientService).to(ClientServiceImpl).inSingletonScope()
-container.bind<ClientRepository>(TYPES.ClientRepository).to(ClientRepositoryImpl).inSingletonScope()
-container.bind<PointService>(TYPES.PointService).to(PointServiceImpl).inSingletonScope(); 
-container.bind<PointRepository>(TYPES.PointRepository).to(PointRepositoryImpl).inSingletonScope()
-container.bind<AdminService>(TYPES.AdminService).to(AdminServiceImpl).inSingletonScope()
-container.bind<AdminRepository>(TYPES.AdminRepository).to(AdminRepositoryImpl).inSingletonScope()
-container.bind<AuthService>(TYPES.AuthService).to(AuthServiceImpl).inSingletonScope()
-container.bind<AuthMiddleware>(TYPES.AuthMiddleware).to(AuthMiddleware) ; 
-container.bind<GlobalNotificationService>(TYPES.GlobalNotificationService).to(GlobalNotificationServiceImpl).inSingletonScope()
-container.bind<NotificationService>(TYPES.NotificationService).to(NotificationServiceImpl).inSingletonScope()
-container.bind<NotificationRepository>(TYPES.NotificationRepository).to(NotificationRepositoryImpl).inSingletonScope()
-container.bind<QRCodeRepository>(TYPES.QRCodeRepository).to(QRCodeRepositoryImpl).inSingletonScope()
-container.bind<QRCodeService>(TYPES.QRCodeService).to(QRCodeServiceImpl).inSingletonScope()
-
-
-
-
+container
+  .bind<DatabaseService>(TYPES.DatabaseService)
+  .to(DatabaseServiceImpl)
+  .inSingletonScope();
+container
+  .bind<ClientService>(TYPES.ClientService)
+  .to(ClientServiceImpl)
+  .inSingletonScope();
+container
+  .bind<ClientRepository>(TYPES.ClientRepository)
+  .to(ClientRepositoryImpl)
+  .inSingletonScope();
+container
+  .bind<PointService>(TYPES.PointService)
+  .to(PointServiceImpl)
+  .inSingletonScope();
+container
+  .bind<PointRepository>(TYPES.PointRepository)
+  .to(PointRepositoryImpl)
+  .inSingletonScope();
+container
+  .bind<AdminService>(TYPES.AdminService)
+  .to(AdminServiceImpl)
+  .inSingletonScope();
+container
+  .bind<AdminRepository>(TYPES.AdminRepository)
+  .to(AdminRepositoryImpl)
+  .inSingletonScope();
+container
+  .bind<AuthService>(TYPES.AuthService)
+  .to(AuthServiceImpl)
+  .inSingletonScope();
+container.bind<AuthMiddleware>(TYPES.AuthMiddleware).to(AuthMiddleware);
+container
+  .bind<GlobalNotificationService>(TYPES.GlobalNotificationService)
+  .to(GlobalNotificationServiceImpl)
+  .inSingletonScope();
+container
+  .bind<NotificationService>(TYPES.NotificationService)
+  .to(NotificationServiceImpl)
+  .inSingletonScope();
+container
+  .bind<NotificationRepository>(TYPES.NotificationRepository)
+  .to(NotificationRepositoryImpl)
+  .inSingletonScope();
+container
+  .bind<QRCodeRepository>(TYPES.QRCodeRepository)
+  .to(QRCodeRepositoryImpl)
+  .inSingletonScope();
+container
+  .bind<QRCodeService>(TYPES.QRCodeService)
+  .to(QRCodeServiceImpl)
+  .inSingletonScope();
+container
+  .bind<GlobalNotificationRepository>(TYPES.GlobalNotificationRepository)
+  .to(GlobalNotificationRepositoryImpl)
+  .inSingletonScope();
 
 export { container };

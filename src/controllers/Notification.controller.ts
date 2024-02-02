@@ -31,7 +31,7 @@ export class NotificationController extends BaseHttpController {
         ReasonPhrases.UNAUTHORIZED,
         StatusCodes.UNAUTHORIZED
       );
-    const client = await this._clientService.getClient(Number(id));
+    const client = await this._clientService.getClient(id);
     if (!client)
       return BaseHttpResponse.error(
         ReasonPhrases.UNAUTHORIZED,
