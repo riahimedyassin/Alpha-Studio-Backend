@@ -3,7 +3,7 @@ import { Admin } from "../../models/Admin.model";
 
 export interface AdminService {
   register(admin: AdminRegisterDTO): Promise<Admin>;
-  delete(id: number): Promise<boolean>;
+  delete(id: string): Promise<boolean>;
   login(email: string, password: string): Promise<Admin | null>;
   getAll(): Promise<Admin[]>;
   getAdmin(id: string): Promise<Admin | null>;

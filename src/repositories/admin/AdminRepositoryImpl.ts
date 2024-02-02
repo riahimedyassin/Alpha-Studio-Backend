@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { AdminRepository } from "./AdminRepository";
 import { TYPES } from "../../constants/TYPES";
 import { DatabaseService } from "../../services/db/DatabaseService";
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { Admin } from "../../entities/Admin.entity";
 
 @injectable()
@@ -20,5 +20,9 @@ export class AdminRepositoryImpl implements AdminRepository {
   public async find(): Promise<Admin[]> {
     const admins = await this.repos.find();
     return admins;
+  }
+  public async findOneAndDelete(id: string): Promise<boolean> {
+    const deleted = await this.repos.delete({ id: Number(id) });
+    return deleted instanceof DeleteResult;
   }
 }

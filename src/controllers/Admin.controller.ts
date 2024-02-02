@@ -2,6 +2,7 @@ import { inject } from "inversify";
 import {
   BaseHttpController,
   controller,
+  httpDelete,
   httpGet,
   httpPost,
   requestBody,
@@ -12,7 +13,7 @@ import { AdminService } from "../services/admin/AdminService";
 import { AdminRegisterDTO } from "../dto/admin/AdminRegister.dto";
 import { BaseHttpResponse } from "../helpers/BaseHttpResponse";
 import { validate } from "class-validator";
-import { StatusCodes } from "http-status-codes";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { AuthService } from "../services/auth/AuthService";
 import { AdminGlobalResponse } from "../dto/admin/AdminGlobalResponse.dto";
 
@@ -65,6 +66,19 @@ export class AdminController extends BaseHttpController {
       "Admin retreived successfully",
       StatusCodes.OK,
       admin
+    );
+  }
+  @httpDelete("/:id")
+  public async deleteAdmin(@requestParam("id") id: string) {
+    const delted = await this._adminService.delete(id);
+    if (!delted)
+      return BaseHttpResponse.error(
+        "Cannot delete the Admin",
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    return BaseHttpResponse.success(
+      ReasonPhrases.NO_CONTENT,
+      StatusCodes.NO_CONTENT
     );
   }
 }

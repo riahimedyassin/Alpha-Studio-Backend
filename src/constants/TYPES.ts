@@ -11,4 +11,6 @@ export const TYPES = {
   GlobalNotificationService: Symbol.for("GlobalNotificationService"),
   NotificationService: Symbol.for("NotificationService"),
   NotificationRepository: Symbol.for("NotificationRepository"),
+  QRCodeRepository: Symbol.for("QRCodeRepository"),
+  QRCodeService: Symbol.for("QRCodeService"),
 };

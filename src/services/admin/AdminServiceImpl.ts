@@ -15,9 +15,9 @@ export class AdminServiceImpl implements AdminService {
     const saved = await this._adminRepository.repos.save(admin);
     return saved;
   }
-  public async delete(id: number): Promise<boolean> {
-    const saved = await this._adminRepository.repos.delete({ id: id });
-    return saved != undefined;
+  public async delete(id: string): Promise<boolean> {
+    const saved = await this._adminRepository.findOneAndDelete(id)
+    return saved ; 
   }
   public async login(email: string, password: string): Promise<Admin | null> {
     const admin = this._adminRepository.repos.findOneBy({ email, password });
