@@ -7,6 +7,7 @@ import { TYPES } from "../constants/TYPES";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { AuthService } from "../services/auth/AuthService";
 import { CustomError } from "../errors/custom-error";
+import { log } from "console";
 
 export class AdminMiddleware extends BaseMiddleware {
   constructor(
@@ -20,7 +21,7 @@ export class AdminMiddleware extends BaseMiddleware {
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): void {
-    const id = req.get("id");
+    const id = res.get("id");
     const exist = this._authService.existEntity(id!, "Admin");
     if (!exist) {
       res.status(StatusCodes.FORBIDDEN).json({

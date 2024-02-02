@@ -4,7 +4,7 @@ import { TYPES } from "../../constants/TYPES";
 import { DatabaseService } from "../../services/db/DatabaseService";
 import { DeleteResult, Repository } from "typeorm";
 import { GlobalNotification } from "../../entities/GlobalNotification.entity";
-
+import { GNotificationCreateDTO } from "../../dto/global-notifications/GNotificationCreate.dto";
 
 @injectable()
 export class GlobalNotificationRepositoryImpl
@@ -27,5 +27,10 @@ export class GlobalNotificationRepositoryImpl
   }
   public async find(): Promise<GlobalNotification[]> {
     return this.repos.find();
+  }
+  public async save(
+    body: GlobalNotification
+  ): Promise<GlobalNotification | null> {
+    return await this.repos.save(body);
   }
 }

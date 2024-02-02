@@ -51,7 +51,7 @@ export class AuthMiddleware extends BaseMiddleware {
         });
         return;
       }
-      res.set("id", verfication.toString());
+      res.set("id", `${verfication}`);
       next();
     } catch (error) {
       res.status(StatusCodes.UNAUTHORIZED).json({

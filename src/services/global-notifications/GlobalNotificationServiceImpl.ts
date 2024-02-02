@@ -3,6 +3,7 @@ import { GlobalNotificationService } from "./GlobalNotificationService";
 import { TYPES } from "../../constants/TYPES";
 import { GlobalNotificationRepository } from "../../repositories/global-notification/GlobalNotificationRepository";
 import { GlobalNotification } from "../../entities/GlobalNotification.entity";
+import { GNotificationCreateDTO } from "../../dto/global-notifications/GNotificationCreate.dto";
 
 @injectable()
 export class GlobalNotificationServiceImpl
@@ -22,5 +23,8 @@ export class GlobalNotificationServiceImpl
     id: string
   ): Promise<GlobalNotification | null> {
     return await this._globalNotificationRepository.findOneByID(id);
+  }
+  public async save(body: GNotificationCreateDTO): Promise<GlobalNotification | null> {
+      return await this._globalNotificationRepository.save(body) ; 
   }
 }
