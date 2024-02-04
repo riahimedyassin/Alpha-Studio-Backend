@@ -18,4 +18,10 @@ export class QRCodeRepositoryImpl implements QRCodeRepository {
     const qr_code = await this.repos.findOneBy({ client: client });
     return qr_code;
   }
+  public async create(user_id: string): Promise<QRCode> {
+    const code = await this.repos.save({
+      link: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${user_id}`,
+    });
+    return code;
+  }
 }

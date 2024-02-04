@@ -5,4 +5,5 @@ import { Client } from "../../entities/Client.entity";
 export interface QRCodeRepository {
   repos: Repository<QRCode>;
   getCodeByClient(client: Client): Promise<QRCode | null>;
+  create(user_id : string) : Promise<QRCode>
 }

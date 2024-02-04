@@ -6,12 +6,14 @@ import { Client } from "../../entities/Client.entity";
 import { ClientRegisterDTO } from "../../dto/client/ClientRegister.dto";
 import { PointService } from "../point/PointService";
 import { ClientPatchDTO } from "../../dto/client/ClientPatch.dto";
+import { QRCodeService } from "../qr-code/QRCodeService";
 
 @injectable()
 export class ClientServiceImpl implements ClientService {
   constructor(
     @inject(TYPES.ClientRepository) private _clientRepos: ClientRepository,
-    @inject(TYPES.PointService) private _pointService: PointService
+    @inject(TYPES.PointService) private _pointService: PointService,
+    @inject(TYPES.QRCodeService) private _qrCodeService: QRCodeService
   ) {}
   public async getAll(): Promise<Client[]> {
     const clients = await this._clientRepos.repos.find({
@@ -27,9 +29,11 @@ export class ClientServiceImpl implements ClientService {
     const point = await this._pointService.init();
     client.point = point;
     const result = await this._clientRepos.save(client);
+    if (result)
+      result.qr_code = await this._qrCodeService.init(result?.id.toString());
     return result;
   }
-  public async delete(id: string) : Promise<boolean> {
+  public async delete(id: string): Promise<boolean> {
     const deleted = await this._clientRepos.findOneAndDelete(id);
     return deleted;
   }

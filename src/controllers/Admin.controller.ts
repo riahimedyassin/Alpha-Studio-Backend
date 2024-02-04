@@ -46,7 +46,7 @@ export class AdminController extends BaseHttpController {
     const token = this._authService.generateToken(admin.id);
     return BaseHttpResponse.token(token);
   }
-  @httpGet("/")
+  @httpGet("/", TYPES.AuthMiddleware, TYPES.AdminAuthMiddleware)
   public async getAll() {
     const admins = (await this._adminService.getAll()).map(
       (admin) => new AdminGlobalResponse(admin.sup, admin.email, admin.id)
@@ -57,7 +57,27 @@ export class AdminController extends BaseHttpController {
       admins
     );
   }
-  @httpGet("/:id")
+  @httpGet("/current", TYPES.AuthMiddleware, TYPES.AdminAuthMiddleware)
+  public async getCurrent() {
+    const id = this.httpContext.response.get("id");
+    if (!id)
+      return BaseHttpResponse.error(
+        ReasonPhrases.UNAUTHORIZED,
+        StatusCodes.UNAUTHORIZED
+      );
+    const admin = await this._adminService.getAdmin(id);
+    if (!admin)
+      return BaseHttpResponse.error(
+        ReasonPhrases.UNAUTHORIZED,
+        StatusCodes.UNAUTHORIZED
+      );
+    return BaseHttpResponse.success(
+      "Admin retrieved successfully",
+      StatusCodes.OK,
+      admin
+    );
+  }
+  @httpGet("/:id", TYPES.AuthMiddleware, TYPES.AdminAuthMiddleware)
   public async getSingleAdmin(@requestParam("id") id: string) {
     const admin = await this._adminService.getAdmin(id);
     if (!admin)
@@ -68,7 +88,8 @@ export class AdminController extends BaseHttpController {
       admin
     );
   }
-  @httpDelete("/:id")
+
+  @httpDelete("/:id", TYPES.AuthMiddleware, TYPES.AdminAuthMiddleware)
   public async deleteAdmin(@requestParam("id") id: string) {
     const delted = await this._adminService.delete(id);
     if (!delted)
@@ -81,5 +102,4 @@ export class AdminController extends BaseHttpController {
       StatusCodes.NO_CONTENT
     );
   }
-
 }

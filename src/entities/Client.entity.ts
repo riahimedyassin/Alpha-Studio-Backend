@@ -45,7 +45,7 @@ export class Client extends BaseEntity {
   point!: Point;
   @OneToMany(() => Notification, (notification) => notification.client)
   notification!: Notification[];
-  @OneToOne(() => QRCode, (qrcode) => qrcode.client)
+  @OneToOne(() => QRCode, (qrcode) => qrcode.client , {eager:true})
   @JoinColumn({ name: "qr_code" })
   qr_code!: QRCode;
 }

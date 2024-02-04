@@ -31,7 +31,7 @@ export class ClientController extends BaseHttpController {
   ) {
     super();
   }
-  @httpGet("/",TYPES.AuthMiddleware,TYPES.AdminAuthMiddleware)
+  @httpGet("/", TYPES.AuthMiddleware, TYPES.AdminAuthMiddleware)
   public async getAllClients() {
     const clients = (await this._clientService.getAll()).map(
       (client) =>
@@ -73,7 +73,7 @@ export class ClientController extends BaseHttpController {
     const token = this._authService.generateToken(client.id);
     return BaseHttpResponse.token(token);
   }
-  @httpGet("/me")
+  @httpGet("/me", TYPES.AuthMiddleware, TYPES.ClientAuthMiddleware)
   public async getConnectedUser() {
     const id = this.httpContext.request.get("id");
     if (!id)
@@ -99,7 +99,34 @@ export class ClientController extends BaseHttpController {
       )
     );
   }
-  @httpGet("/:id")
+
+  @httpDelete("/me", TYPES.AuthMiddleware, TYPES.ClientAuthMiddleware)
+  public async delete(@requestParam("id") id: string) {
+    const res = await this._clientService.delete(id);
+    if (!res)
+      return BaseHttpResponse.error(
+        "Cannot delete the client",
+        StatusCodes.INTERNAL_SERVER_ERROR
+      );
+    return BaseHttpResponse.success(
+      ReasonPhrases.NO_CONTENT,
+      StatusCodes.NO_CONTENT
+    );
+  }
+  @httpPatch("/me", TYPES.AuthMiddleware, TYPES.ClientAuthMiddleware)
+  public async update(
+    @requestParam("id") id: string,
+    @requestBody() body: Partial<ClientPatchDTO>
+  ) {
+    await validate(body);
+    const changed = await this._clientService.update(id, body);
+    return BaseHttpResponse.success(
+      "Client updated successfully",
+      StatusCodes.ACCEPTED,
+      changed
+    );
+  }
+  @httpGet("/:id", TYPES.AuthMiddleware, TYPES.AdminAuthMiddleware)
   public async getClient(@requestParam("id") id: string) {
     if (!id)
       BaseHttpResponse.error(
@@ -116,32 +143,6 @@ export class ClientController extends BaseHttpController {
       "Client retrieved successfully",
       StatusCodes.OK,
       client
-    );
-  }
-  @httpDelete("/:id")
-  public async delete(@requestParam("id") id: string) {
-    const res = await this._clientService.delete(id);
-    if (!res)
-      return BaseHttpResponse.error(
-        "Cannot delete the client",
-        StatusCodes.INTERNAL_SERVER_ERROR
-      );
-    return BaseHttpResponse.success(
-      ReasonPhrases.NO_CONTENT,
-      StatusCodes.NO_CONTENT
-    );
-  }
-  @httpPatch("/:id")
-  public async update(
-    @requestParam("id") id: string,
-    @requestBody() body: Partial<ClientPatchDTO>
-  ) {
-    await validate(body);
-    const changed = await this._clientService.update(id, body);
-    return BaseHttpResponse.success(
-      "Client updated successfully",
-      StatusCodes.ACCEPTED,
-      changed
     );
   }
 }
