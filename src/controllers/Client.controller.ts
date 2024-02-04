@@ -36,11 +36,13 @@ export class ClientController extends BaseHttpController {
     const clients = (await this._clientService.getAll()).map(
       (client) =>
         new ClientGlobalResponseDTO(
+          client.id,
           client.first_name,
           client.last_name,
           client.email,
           client.created_at,
-          client.point
+          client.point,
+          client.qr_code
         )
     );
     return BaseHttpResponse.success(
@@ -75,7 +77,8 @@ export class ClientController extends BaseHttpController {
   }
   @httpGet("/me", TYPES.AuthMiddleware, TYPES.ClientAuthMiddleware)
   public async getConnectedUser() {
-    const id = this.httpContext.request.get("id");
+    const id = this.httpContext.response.get("id");
+    console.log(id);
     if (!id)
       return BaseHttpResponse.error(
         ReasonPhrases.UNAUTHORIZED,
@@ -91,15 +94,16 @@ export class ClientController extends BaseHttpController {
       "Client retrieved successfully",
       StatusCodes.OK,
       new ClientGlobalResponseDTO(
+        user.id,
         user.first_name,
         user.last_name,
         user.email,
         user.created_at,
-        user.point
+        user.point,
+        user.qr_code
       )
     );
   }
-
   @httpDelete("/me", TYPES.AuthMiddleware, TYPES.ClientAuthMiddleware)
   public async delete(@requestParam("id") id: string) {
     const res = await this._clientService.delete(id);

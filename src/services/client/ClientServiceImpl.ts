@@ -31,6 +31,10 @@ export class ClientServiceImpl implements ClientService {
     const result = await this._clientRepos.save(client);
     if (result)
       result.qr_code = await this._qrCodeService.init(result?.id.toString());
+    await this._clientRepos.findOneAndUpdate(
+      <string>result?.id.toString(),
+      <Client>result
+    );
     return result;
   }
   public async delete(id: string): Promise<boolean> {

@@ -1,5 +1,12 @@
-import { IsBoolean, IsDate, IsEmail, IsString, MinLength } from "class-validator";
+import {
+  IsBoolean,
+  IsDate,
+  IsEmail,
+  IsString,
+  MinLength,
+} from "class-validator";
 import { Point } from "./Point.model";
+import { QRCode } from "../entities/QRCode.entity";
 
 export class Client {
   public readonly id: number;
@@ -20,6 +27,7 @@ export class Client {
   @IsDate()
   public readonly updated_at: Date;
   public readonly point: Point;
+  public readonly qr_code: QRCode;
   constructor(
     id: number,
     first_name: string,
@@ -30,7 +38,8 @@ export class Client {
     verified: boolean,
     created_at: Date,
     updated_at: Date,
-    point: Point
+    point: Point,
+    qr_code: QRCode
   ) {
     this.id = id;
     this.first_name = first_name;
@@ -42,5 +51,6 @@ export class Client {
     this.verified = verified;
     this.updated_at = updated_at;
     this.email = email;
+    this.qr_code = qr_code;
   }
 }

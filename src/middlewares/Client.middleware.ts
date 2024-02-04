@@ -19,7 +19,7 @@ export class ClientMiddleware extends BaseMiddleware {
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): void {
-    const id = req.get("id");
+    const id = res.get("id");
     const exist = this._authService.existEntity(id!, "Client");
     if (!exist) {
       res.status(StatusCodes.FORBIDDEN).json({
